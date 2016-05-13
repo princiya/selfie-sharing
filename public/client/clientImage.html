@@ -5,7 +5,7 @@
 		<script>
 		
 			function setupWebSocket() {
-				var ws = new WebSocket("ws://localhost:3000/");
+				var ws = new WebSocket("ws://192.168.15.17:3000/");
 				ws.binaryType = "arraybuffer";
 				ws.onopen = function() {
 					console.log("camera client image connected");
