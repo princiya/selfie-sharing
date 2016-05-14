@@ -11,6 +11,9 @@ To run the app do the following:
 - Open a browser and run localhost:5000/client/clientImage.html
 
 This is a client - server architecture
+
 Server runs and captures your selfie
+
 Any client(s) connected can have access to this selfie
+
 This is made possible using web sockets
