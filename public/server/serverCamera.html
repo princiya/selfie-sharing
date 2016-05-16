@@ -5,8 +5,9 @@
 		<br/>
 		This file captures frames using getUserMedia() and sends it to client(s) through web sockets.
 	</p>
-	<video autoplay style="display:none;"></video>
-	<canvas style="display: none" width="640" height="480"></canvas>
+	<video autoplay></video>
+	<input type="button" value="Capture" onClick="snapshot()"/>
+	<canvas width="640" height="480"></canvas>
 	
 	<script>
 			function setupWebSocket() {
@@ -15,11 +16,6 @@
 				ws.onopen = function() {
 					console.log("camera connected");
 				}
-				/*
-				ws.onmessage = function(e) {
-					//do nothing	
-				}
-				*/
 				return ws;
 			}
 			var ws = setupWebSocket();
@@ -44,7 +40,7 @@
 			}
 			
 			function startVideo() {
-				setInterval(snapshot, 1000*6);
+				//setInterval(snapshot, 1000*6);
 				navigator.getUserMedia({video: true}, function(stream) {
 				  video.src = window.URL.createObjectURL(stream);
 				  localMediaStream = stream;
