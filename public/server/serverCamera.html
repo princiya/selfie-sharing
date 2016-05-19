@@ -7,6 +7,9 @@
 	</p>
 	<video autoplay></video>
 	<input type="button" value="Capture" onClick="snapshot()"/>
+	<input type="checkbox" value="Red" onClick="invertImage('red')"/>Red
+	<input type="checkbox" value="Green" onClick="invertImage('green')"/>Green
+	<input type="checkbox" value="Blue" onClick="invertImage('blue')"/>Blue
 	<canvas width="640" height="480"></canvas>
 	
 	<script>
@@ -30,28 +33,38 @@
 			
 			function snapshot() {
 			  if (localMediaStream) {
-			    	ctx.drawImage(video, 0, 0);
-			    	var imageObj = canvas.toDataURL('image/png');
-			    	var imageData = ctx.getImageData(0, 0, 640, 480);
-			        var data = imageData.data;
+		    	ctx.drawImage(video, 0, 0);
+		    	//ws.send(ctx.getImageData(0, 0, 640, 480).data.buffer);
+		    	var image = canvas.toDataURL('image/png');
+				ws.send(image);    	
+			  }
+			}
 
+			function invertImage(color) {
+				var imageObj = canvas.toDataURL('image/png');
+		    	var imageData = ctx.getImageData(0, 0, 640, 480);
+		        var data = imageData.data;
+
+		        if(color == 'red')
 			        for(var i = 0; i < data.length; i += 4) {
 			          // red
-			          //data[i] = 255 - data[i];
+			          data[i] = 255 - data[i];
+			        }
+
+		        if(color == 'green')
+			        for(var i = 0; i < data.length; i += 4) {
 			          // green
-			          //data[i + 1] = 255 - data[i + 1];
+			          data[i + 1] = 255 - data[i + 1];
+			        }
+
+		        if(color == 'blue')
+			        for(var i = 0; i < data.length; i += 4) {
 			          // blue
 			          data[i + 2] = 255 - data[i + 2];
 			        }
 
-			        // overwrite original image
-			        ctx.putImageData(imageData, 0, 0);
-					
-					//ws.send(ctx.getImageData(0, 0, 640, 480).data.buffer);
-			    	
-			    	var image = canvas.toDataURL('image/png');
-					ws.send(image);    	
-			  }
+		        // overwrite original image
+		        ctx.putImageData(imageData, 0, 0);
 			}
 			
 			function startVideo() {
